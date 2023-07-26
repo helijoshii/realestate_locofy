@@ -1,17 +1,44 @@
 import "antd/dist/antd.min.css";
 import { Pagination, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { createClient } from "@supabase/supabase-js";
+
 import Header from "../components/header";
 import PropertiesGridContainer from "../components/properties-grid-container";
 import Footer from "../components/footer";
-import { createClient } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 
-
-const defaultOrder = [];
+const defaultOrder = [
+  {
+    key: "1",
+    label: (
+      <a onClick={(e) => e.preventDefault()}>
+        Popular Properties
+      </a>
+    )
+  },
+  {
+    key: "2",
+    label: (
+      <a onClick={(e) => e.preventDefault()}>
+        Latest Properties
+      </a>
+    )
+  },
+  {
+    key: "3",
+    label: (
+      <a onClick={(e) => e.preventDefault()}>
+        Recommended Properties
+      </a>
+    )
+  }
+];
 
 const PropertiesGridView = () => {
   const client = createClient(process.env.NEXT_PUBLIC_URL, process.env.NEXT_PUBLIC_KEY);
+
+  const [properties, setProperties] = useState([]);
 
   useEffect(() => {
     const fetchProperties = async () => {
